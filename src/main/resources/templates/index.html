@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FANCOIL</title>
+</head>
+<body>
+<h2>Seleziona il Fancoil desiderato:</h2>
+<h3>
+  <a href="/index">Home</a>
+</h3>
+<form action="/fancoil" method="get">
+  <select name="ambiente">
+    <option value="camera">Camera</option>
+    <option value="cameretta">Camerettta</option>
+    <option value="sala">Sala</option>
+  </select>
+
+
+
+  <input type="submit" value="Seleziona">
+</form>
+
+<form action="/setFancoil" method="GET">
+  <select name="ambiente">
+    <option value="camera">Camera</option>
+    <option value="cameretta">Camerettta</option>
+    <option value="sala">Sala</option>
+  </select>
+  <select name="onOff">
+    <option value="true">acceso</option>
+    <option value="false">spento</option>
+
+  </select>
+  <input type="submit" value="Seleziona2">
+</form>
+
+
+</body>
+
+</html>

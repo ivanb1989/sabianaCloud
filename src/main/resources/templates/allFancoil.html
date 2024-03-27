@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>JSON Keys Table</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h3>
+  <a href="/index">Home</a>
+</h3>
+<div style="display: flex;">
+  <div style="flex: 1;">
+    <table>
+      <tr th:each="fan0 : ${fan0}">
+        <span th:if="${fan0.value.getClass().name == 'java.util.LinkedHashMap'}">
+                    <!-- Iterazione solo se fan0.value è una mappa -->
+          <table>
+            <tr>
+              <th>Valore</th>
+              <th th:text="${name0}"></th>
+            </tr>
+            <tr th:each="entry : ${fan0.value}">
+              <td th:text="${entry.key}"></td>
+              <td th:text="${entry.value}"></td>
+            </tr>
+          </table>
+        </span>
+      </tr>
+    </table>
+  </div>
+  <div style="flex: 2;">
+    <table>
+      <tr th:each="fan1 : ${fan1}">
+        <span th:if="${fan1.value.getClass().name == 'java.util.LinkedHashMap'}">
+                    <!-- Iterazione solo se fan0.value è una mappa -->
+                    <table>
+                       <tr>
+                        <th th:text="${name1}"></th>
+                       </tr>
+                       <tr th:each="entry : ${fan1.value}">
+                         <td th:text="${entry.value}"></td>
+                       </tr>
+                    </table>
+                </span>
+      </tr>
+    </table>
+  </div>
+  <div style="flex: 2;">
+    <table>
+
+      <tr th:each="fan2 : ${fan2}">
+        <span th:if="${fan2.value.getClass().name == 'java.util.LinkedHashMap'}">
+                    <!-- Iterazione solo se fan0.value è una mappa -->
+                    <table>
+                       <tr>
+    <th th:text="${name2}"></th>
+    </tr>
+                        <tr th:each="entry : ${fan2.value}">
+                            <td th:text="${entry.value}"></td>
+                        </tr>
+                    </table>
+                </span>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>
