@@ -28,6 +28,7 @@
 <form action="/mev/setFancoil" method="GET">
   <label for="setPoint">Fancoil:
   <select name="ambiente">
+      <option value=""></option>
       <option value="camera">Camera</option>
       <option value="cameretta">Camerettta</option>
       <option value="sala">Sala</option>
@@ -35,18 +36,22 @@
   </label>
 
     <select name="onOff">
+      <option value=""></option>
       <option value="true">acceso</option>
       <option value="false">spento</option>
     </select>
 
     <select name="mode">
+      <option value=""></option>
       <option value="heating">riscaldamento</option>
       <option value="cooling">condizionamento</option>
+      <option value="ventilate">ventilazione</option>
+      <option value="auto">auto</option>
     </select>
 
-    <label for="setPoint">Ventilazione:</label>
-
-    <select name="fan">
+  <label for="fan">Ventilazione:</label>
+    <select name="fan" id="fan">
+      <option value=""></option>
       <option value="V1">Velocità I</option>
       <option value="V2">Velocità II</option>
       <option value="V3">Velocità III</option>
