@@ -5,37 +5,59 @@
   <title>FANCOIL</title>
 </head>
 <body>
+
 <h2>Seleziona il Fancoil desiderato:</h2>
 <h3>
-  <a href="/index">Home</a>
+  <a href="/mev/index">Home</a>
 </h3>
-<form action="/fancoil" method="get">
-  <select name="ambiente">
-    <option value="camera">Camera</option>
-    <option value="cameretta">Camerettta</option>
-    <option value="sala">Sala</option>
-  </select>
+<h4>Stato FanCoil</h4>
 
-
-
+<form action="/mev/fancoil" method="get">
+  <label>
+    <select name="ambiente">
+      <option value="camera">Camera</option>
+      <option value="cameretta">Camerettta</option>
+      <option value="sala">Sala</option>
+    </select>
+  </label>
   <input type="submit" value="Seleziona">
 </form>
 
-<form action="/setFancoil" method="GET">
+
+<h4>Set FanCoil</h4>
+<form action="/mev/setFancoil" method="GET">
+  <label for="setPoint">Fancoil:
   <select name="ambiente">
-    <option value="camera">Camera</option>
-    <option value="cameretta">Camerettta</option>
-    <option value="sala">Sala</option>
-  </select>
-  <select name="onOff">
-    <option value="true">acceso</option>
-    <option value="false">spento</option>
+      <option value="camera">Camera</option>
+      <option value="cameretta">Camerettta</option>
+      <option value="sala">Sala</option>
+    </select>
+  </label>
 
-  </select>
-  <input type="submit" value="Seleziona2">
+    <select name="onOff">
+      <option value="true">acceso</option>
+      <option value="false">spento</option>
+    </select>
+
+    <select name="mode">
+      <option value="heating">riscaldamento</option>
+      <option value="cooling">condizionamento</option>
+    </select>
+
+    <label for="setPoint">Ventilazione:</label>
+
+    <select name="fan">
+      <option value="V1">Velocità I</option>
+      <option value="V2">Velocità II</option>
+      <option value="V3">Velocità III</option>
+      <option value="auto">Auto</option>
+    </select>
+
+    <label for="setPoint">Set Point:</label>
+      <input type="number" id="setPoint" name="setPoint" min="10" max="30" value="10">
+
+  <input type="submit" value="OK">
 </form>
-
-
 </body>
 
 </html>

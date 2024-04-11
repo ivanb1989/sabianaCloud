@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>JSON Keys Table</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+<h3>
+  <a href="/mev/index">Home</a>
+</h3>
+<h2 th:text="${ambiente}"></h2>
+
+<table>
+  <tr>
+    <th>on</th>
+    <th>mode</th>
+    <th>fan</th>
+    <th>setPoint</th>
+  </tr>
+  <tr >
+    <td th:text="${on}"></td>
+    <td th:text="${mode}"></td>
+    <td th:text="${fan}"></td>
+    <td th:text="${setPoint}"></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package org.ivan.sabiana2.service;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import org.ivan.sabiana2.model.Sabiana;
@@ -15,10 +16,18 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Sabiana service.
+ */
 @Service
-public class SabianaService {
+public class SabianaServiceMev {
 
 
+  /**
+   * All fancoil model and view.
+   *
+   * @return the model and view
+   */
   public ModelAndView allFancoil() {
 
     String json = callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON,
@@ -56,61 +65,68 @@ public class SabianaService {
   }
 
 
-  public ModelAndView singleFancoil(String ambiente) {
-    String url = Constant.API_URL_SABIANA;
+  /**
+   * Single fancoil model and view.
+   *
+   * @param ambiente the ambiente
+   * @return the model and view
+   */
+  public ModelAndView singleFancoil(String ambiente) throws JsonProcessingException {
 
-    url = getAmbiente(ambiente, url);
+    Map<String, Object> ventUnit = getJoson(ambiente);
 
-    String json = callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON,
-        url, HttpMethod.GET, null);
+    ModelAndView mav = new ModelAndView("fancoil");
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    try {
-
-      Map<String, Object> responseMap = objectMapper.readValue(json,
-          new TypeReference<Map<String, Object>>() {
-          });
-      String name = (String) responseMap.get("name");
-
-      Map<String, Object> ventUnit = (Map<String, Object>) responseMap.get("ventUnit");
-
-      ModelAndView mav = new ModelAndView("fancoil");
-      mav.addObject("name", name.toUpperCase());
-
-      mav.addObject("nameUnite", ambiente.toUpperCase());
-      mav.addObject("ventUnit", ventUnit);
-
-      return mav;
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-
-  public ModelAndView setFacoilEndPoint(boolean mode, /*String fan, int setPoint,*/
-      String ambiente) {
-    ModelAndView mav = new ModelAndView("setFancoil");
+    mav.addObject("name", ventUnit.get("name"));
+    mav.addObject("nameUnite", ambiente.toUpperCase());
+    mav.addObject("ventUnit", ventUnit);
 
     return mav;
+
   }
 
-  public ModelAndView setFancoil(boolean onOff, String fan, int setPoint, String flap,
-      String ambiente) {
-    String on_Off = (onOff) ? "true" : "false";
 
-    String requestBody = "{\n" +
-        "  \"on\": true,\n" +
-        "  \"mode\": \"heating\",\n" +
-        "  \"fan\": \"V2\",\n" +
-        "  \"setPoint\": 26,\n" +
-        "  \"flap\": \"full\"\n" +
-        "}";
+  /**
+   * Sets fancoil.
+   *
+   * @param onOff    the on off
+   * @param fan      the fan
+   * @param setPoint the set point
+   * @param ambiente the ambiente
+   * @return the fancoil
+   */
+  public ModelAndView setFancoil(boolean onOff, String mode, String fan, int setPoint,
+      String ambiente) throws JsonProcessingException {
+
+    Map<String, Object> ventUnit = getJoson(ambiente);
+
+    ModelAndView mav = new ModelAndView("fancoilSet");
+    mav.addObject("on",ventUnit.get("on"));
+    mav.addObject("mode",ventUnit.get("mode"));
+    mav.addObject("fan",ventUnit.get("fan"));
+    mav.addObject("setPoint",ventUnit.get("setPoint"));
+
+
+    mav.addObject("onOff", onOff);
+    mav.addObject("mode", mode);
+    mav.addObject("fan", fan);
+    mav.addObject("setPoint", setPoint);
+    mav.addObject("ambiente", ambiente);
+
+    String requestBody = String.format(
+        "{\"on\": %b," +
+            "  \"mode\": \"%s\"," +
+            "  \"fan\": \"%s\"," +
+            "  \"setPoint\": %d" +
+            "}",
+        onOff, mode, fan, setPoint);
 
     String url = getAmbiente(ambiente, Constant.API_URL_SET_FANCOIL);
 
-    String string = callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON, url,
+    callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON, url,
         HttpMethod.POST, requestBody);
-    return singleFancoil(ambiente);
+
+    return mav;
   }
 
 
@@ -143,6 +159,29 @@ public class SabianaService {
     return url;
   }
 
+  private Map<String, Object> getJoson(String ambiente) throws JsonProcessingException {
+
+    String url = Constant.API_URL_SABIANA;
+
+    url = getAmbiente(ambiente, url);
+
+    String json = callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON,
+        url, HttpMethod.GET, null);
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      Map<String, Object> responseMap = objectMapper.readValue(json,
+          new TypeReference<Map<String, Object>>() {
+          });
+      String name = (String) responseMap.get("name");
+
+      Map<String, Object> ventUnit = (Map<String, Object>) responseMap.get("ventUnit");
+      ventUnit.put("name", name);
+      return ventUnit;
+    } catch (JsonMappingException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   private Sabiana saveSabiana(Map<String, Object> map, Sabiana sabiana) {
 
@@ -193,6 +232,7 @@ public class SabianaService {
     return fieldNames;
 
   }
-
-
 }
+
+
+
