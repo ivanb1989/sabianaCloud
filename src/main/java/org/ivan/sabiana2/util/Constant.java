@@ -30,12 +30,5 @@ public class Constant {
    * The constant API_URL_SABIANA_VENT.
    */
   public static final String API_URL_SABIANA_VENT = "https://data.sabiana.cloud/api/v1/vent";
-
-  /**
-   * The constant API_KEY_SABIANA.
-   */
-  public static final String API_KEY_SABIANA = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzYW"
-      + "JpYW5ldCI6IjEyNSIsImlzcyI6ImF1dGgwIiwiaWF0IjozMzA3ODd9.zvaY7_dSlx9nPjxxuBVrCk79k"
-      + "TkHm1Y78MYf6aTtAfA";
 }
 

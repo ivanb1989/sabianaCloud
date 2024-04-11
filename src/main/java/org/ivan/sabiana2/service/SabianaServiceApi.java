@@ -16,6 +16,7 @@ import org.ivan.sabiana2.util.Ambienti;
 import org.ivan.sabiana2.util.Constant;
 import org.ivan.sabiana2.util.Fan;
 import org.ivan.sabiana2.util.Mode;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,7 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Service
 public class SabianaServiceApi {
 
-
+    @Value("${api.key2}")
+    String API_KEY_SABIANA;
     /**
      * All fancoil model and view.
      *
@@ -40,7 +42,7 @@ public class SabianaServiceApi {
      */
     public ResponseEntity<?> allFancoil() {
 
-        String json = callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON,
+        String json = callHttp(API_KEY_SABIANA, MediaType.APPLICATION_JSON,
                 Constant.API_URL_SABIANA_VENT, HttpMethod.GET, null);
 
         // Ora puoi deserializzare il JSON in una mappa utilizzando Jackson
@@ -104,7 +106,7 @@ public class SabianaServiceApi {
 
         String url = getAmbiente(ambiente, Constant.API_URL_SET_FANCOIL);
 
-        callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON, url,
+        callHttp(API_KEY_SABIANA, MediaType.APPLICATION_JSON, url,
                 HttpMethod.POST, requestBody);
 
         return new ResponseEntity<>(singleFancoil(ambiente), HttpStatus.OK);
@@ -175,7 +177,7 @@ public class SabianaServiceApi {
 
         url = getAmbiente(ambiente, url);
 
-        String json = callHttp(Constant.API_KEY_SABIANA, MediaType.APPLICATION_JSON,
+        String json = callHttp(API_KEY_SABIANA, MediaType.APPLICATION_JSON,
                 url, HttpMethod.GET, null);
 
         ObjectMapper objectMapper = new ObjectMapper();
